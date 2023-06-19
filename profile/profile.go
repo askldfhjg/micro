@@ -7,6 +7,11 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
+
 	"github.com/micro/micro/plugin/etcd/v3"
 	"github.com/micro/micro/plugin/prometheus/v3"
 	"github.com/micro/micro/v3/service/metrics"
@@ -14,10 +19,6 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"github.com/philchia/agollo/v4"
 	"github.com/wolfplus2048/mcbeam-plugins/config/apollo/v3"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"strings"
 
 	"github.com/micro/micro/v3/service/auth/jwt"
 	"github.com/micro/micro/v3/service/broker"
@@ -61,7 +62,7 @@ var profiles = map[string]*Profile{
 	"test":       Test,
 	"local":      Local,
 	"kubernetes": Kubernetes,
-	"cmd":Cmd,
+	"cmd":        Cmd,
 }
 
 // Profile configures an environment
@@ -362,8 +363,7 @@ func SetupConfigSecretKey(ctx *cli.Context) {
 // natsStreamOpts returns a slice of options which should be used to configure nats
 func syncEtcdOpts(ctx *cli.Context) []sync.Option {
 	// setup registry
-	opts := []sync.Option{
-	}
+	opts := []sync.Option{}
 
 	// Parse registry TLS certs
 	if len(ctx.String("registry_tls_cert")) > 0 || len(ctx.String("registry_tls_key")) > 0 {
@@ -392,10 +392,10 @@ func syncEtcdOpts(ctx *cli.Context) []sync.Option {
 	opts = append(opts, sync.Prefix(os.Getenv("MICRO_SERVICE_NAME")))
 	return opts
 }
-func EtcdOpts(ctx *cli.Context) []registry.Option  {
+func EtcdOpts(ctx *cli.Context) []registry.Option {
 	// setup registry
-	registryOpts := []registry.Option {
-		registry.Addrs("etcd-cluster.default.svc.cluster.local"),
+	registryOpts := []registry.Option{
+		registry.Addrs("127.0.0.1"),
 	}
 
 	// Parse registry TLS certs
