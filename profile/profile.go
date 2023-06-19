@@ -4,10 +4,7 @@
 package profile
 
 import (
-	"crypto/tls"
-	"crypto/x509"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -366,25 +363,25 @@ func syncEtcdOpts(ctx *cli.Context) []sync.Option {
 	opts := []sync.Option{}
 
 	// Parse registry TLS certs
-	if len(ctx.String("registry_tls_cert")) > 0 || len(ctx.String("registry_tls_key")) > 0 {
-		cert, err := tls.LoadX509KeyPair(ctx.String("registry_tls_cert"), ctx.String("registry_tls_key"))
-		if err != nil {
-			logger.Fatalf("Error loading registry tls cert: %v", err)
-		}
+	// if len(ctx.String("registry_tls_cert")) > 0 || len(ctx.String("registry_tls_key")) > 0 {
+	// 	cert, err := tls.LoadX509KeyPair(ctx.String("registry_tls_cert"), ctx.String("registry_tls_key"))
+	// 	if err != nil {
+	// 		logger.Fatalf("Error loading registry tls cert: %v", err)
+	// 	}
 
-		// load custom certificate authority
-		caCertPool := x509.NewCertPool()
-		if len(ctx.String("registry_tls_ca")) > 0 {
-			crt, err := ioutil.ReadFile(ctx.String("registry_tls_ca"))
-			if err != nil {
-				logger.Fatalf("Error loading registry tls certificate authority: %v", err)
-			}
-			caCertPool.AppendCertsFromPEM(crt)
-		}
+	// 	// load custom certificate authority
+	// 	caCertPool := x509.NewCertPool()
+	// 	if len(ctx.String("registry_tls_ca")) > 0 {
+	// 		crt, err := ioutil.ReadFile(ctx.String("registry_tls_ca"))
+	// 		if err != nil {
+	// 			logger.Fatalf("Error loading registry tls certificate authority: %v", err)
+	// 		}
+	// 		caCertPool.AppendCertsFromPEM(crt)
+	// 	}
 
-		cfg := &tls.Config{Certificates: []tls.Certificate{cert}, RootCAs: caCertPool}
-		opts = append(opts, sync.TLSConfig(cfg))
-	}
+	// 	cfg := &tls.Config{Certificates: []tls.Certificate{cert}, RootCAs: caCertPool}
+	// 	opts = append(opts, sync.TLSConfig(cfg))
+	// }
 	if len(ctx.String("registry_address")) > 0 {
 		addresses := strings.Split(ctx.String("registry_address"), ",")
 		opts = append(opts, sync.Nodes(addresses...))
@@ -399,25 +396,25 @@ func EtcdOpts(ctx *cli.Context) []registry.Option {
 	}
 
 	// Parse registry TLS certs
-	if len(ctx.String("registry_tls_cert")) > 0 || len(ctx.String("registry_tls_key")) > 0 {
-		cert, err := tls.LoadX509KeyPair(ctx.String("registry_tls_cert"), ctx.String("registry_tls_key"))
-		if err != nil {
-			logger.Fatalf("Error loading registry tls cert: %v", err)
-		}
+	// if len(ctx.String("registry_tls_cert")) > 0 || len(ctx.String("registry_tls_key")) > 0 {
+	// 	cert, err := tls.LoadX509KeyPair(ctx.String("registry_tls_cert"), ctx.String("registry_tls_key"))
+	// 	if err != nil {
+	// 		logger.Fatalf("Error loading registry tls cert: %v", err)
+	// 	}
 
-		// load custom certificate authority
-		caCertPool := x509.NewCertPool()
-		if len(ctx.String("registry_tls_ca")) > 0 {
-			crt, err := ioutil.ReadFile(ctx.String("registry_tls_ca"))
-			if err != nil {
-				logger.Fatalf("Error loading registry tls certificate authority: %v", err)
-			}
-			caCertPool.AppendCertsFromPEM(crt)
-		}
+	// 	// load custom certificate authority
+	// 	caCertPool := x509.NewCertPool()
+	// 	if len(ctx.String("registry_tls_ca")) > 0 {
+	// 		crt, err := ioutil.ReadFile(ctx.String("registry_tls_ca"))
+	// 		if err != nil {
+	// 			logger.Fatalf("Error loading registry tls certificate authority: %v", err)
+	// 		}
+	// 		caCertPool.AppendCertsFromPEM(crt)
+	// 	}
 
-		cfg := &tls.Config{Certificates: []tls.Certificate{cert}, RootCAs: caCertPool}
-		registryOpts = append(registryOpts, registry.TLSConfig(cfg))
-	}
+	// 	cfg := &tls.Config{Certificates: []tls.Certificate{cert}, RootCAs: caCertPool}
+	// 	registryOpts = append(registryOpts, registry.TLSConfig(cfg))
+	// }
 
 	if len(ctx.String("registry_address")) > 0 {
 		addresses := strings.Split(ctx.String("registry_address"), ",")
