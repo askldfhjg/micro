@@ -24,6 +24,7 @@ require (
 	github.com/improbable-eng/grpc-web v0.13.0
 	github.com/kr/pretty v0.2.0
 	github.com/micro/micro/plugin/etcd/v3 v3.0.0-20210901132929-6f7737ba4064
+	github.com/micro/micro/plugin/kafka/broker/v3 v3.0.0-00010101000000-000000000000
 	github.com/micro/micro/plugin/prometheus/v3 v3.0.0-20210825142032-d27318700a59
 	github.com/miekg/dns v1.1.27
 	github.com/nightlyone/lockfile v1.0.0
@@ -58,5 +59,7 @@ require (
 
 replace (
 	github.com/micro/micro/plugin/etcd/v3 => ./plugin/etcd
+	github.com/micro/micro/plugin/kafka/broker/v3 => ./plugin/kafka/broker
 	github.com/micro/micro/plugin/prometheus/v3 => ./plugin/prometheus
+	google.golang.org/grpc => google.golang.org/grpc v1.27.0
 )

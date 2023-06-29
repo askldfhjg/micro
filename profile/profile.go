@@ -17,6 +17,7 @@ import (
 	"github.com/philchia/agollo/v4"
 	"github.com/wolfplus2048/mcbeam-plugins/config/apollo/v3"
 
+	kafka "github.com/micro/micro/plugin/kafka/broker/v3"
 	"github.com/micro/micro/v3/service/auth/jwt"
 	"github.com/micro/micro/v3/service/broker"
 	memBroker "github.com/micro/micro/v3/service/broker/memory"
@@ -268,7 +269,7 @@ var Service = &Profile{
 			}
 			metrics.SetDefaultMetricsReporter(prometheusReporter)
 		}
-
+		SetupBroker(kafka.NewBroker())
 		reporterAddress := ctx.String("tracing_reporter_address")
 		if len(reporterAddress) == 0 {
 			reporterAddress = jaeger.DefaultReporterAddress
