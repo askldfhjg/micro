@@ -14,8 +14,6 @@ import (
 	"github.com/micro/micro/v3/service/metrics"
 	"github.com/micro/micro/v3/service/sync"
 	"github.com/opentracing/opentracing-go"
-	"github.com/philchia/agollo/v4"
-	"github.com/wolfplus2048/mcbeam-plugins/config/apollo/v3"
 
 	kafka "github.com/micro/micro/plugin/kafka/broker/v3"
 	"github.com/micro/micro/v3/service/auth/jwt"
@@ -290,13 +288,13 @@ var Service = &Profile{
 		//if err := sync.Default.Init(syncEtcdOpts(ctx)...); err != nil {
 		//	logger.Fatal("Error configuring etcd sync: %v", err)
 		//}
-		config.DefaultConfig = apollo.NewConfig(apollo.WithConfig(&agollo.Conf{
-			AppID:          os.Getenv("MICRO_NAMESPACE"),
-			Cluster:        "default",
-			NameSpaceNames: []string{os.Getenv("MICRO_SERVICE_NAME") + ".yaml"},
-			MetaAddr:       os.Getenv("MICRO_CONFIG_ADDRESS"),
-			CacheDir:       filepath.Join(os.TempDir(), "apollo"),
-		}))
+		// config.DefaultConfig = apollo.NewConfig(apollo.WithConfig(&agollo.Conf{
+		// 	AppID:          os.Getenv("MICRO_NAMESPACE"),
+		// 	Cluster:        "default",
+		// 	NameSpaceNames: []string{os.Getenv("MICRO_SERVICE_NAME") + ".yaml"},
+		// 	MetaAddr:       os.Getenv("MICRO_CONFIG_ADDRESS"),
+		// 	CacheDir:       filepath.Join(os.TempDir(), "apollo"),
+		// }))
 
 		return nil
 	},
