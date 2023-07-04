@@ -15,7 +15,7 @@ import (
 	"github.com/micro/micro/v3/service/sync"
 	"github.com/opentracing/opentracing-go"
 
-	kafka "github.com/micro/micro/plugin/kafka/broker/v3"
+	"github.com/micro/micro/v3/plugin/kafka/broker"
 	"github.com/micro/micro/v3/service/auth/jwt"
 	"github.com/micro/micro/v3/service/broker"
 	memBroker "github.com/micro/micro/v3/service/broker/memory"
