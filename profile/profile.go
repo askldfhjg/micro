@@ -261,13 +261,14 @@ var Service = &Profile{
 		SetupRegistry(etcd.NewRegistry(EtcdOpts(ctx)...))
 
 		if !metrics.IsSet() {
-			prometheusReporter, err := prometheus.New()
+			prometheusReporter, err := prometheus.New(metrics.Address(os.Getenv("MICRO_METRICS_PORT")))
 			if err != nil {
 				logger.Fatal(err)
 			}
 			metrics.SetDefaultMetricsReporter(prometheusReporter)
 		}
-		SetupBroker(kafka.NewBroker())
+
+		SetupBroker(kafka.NewBroker(broker.Addrs(os.Getenv("MICRO_KAFKA_ADDR"))))
 		reporterAddress := ctx.String("tracing_reporter_address")
 		if len(reporterAddress) == 0 {
 			reporterAddress = jaeger.DefaultReporterAddress
