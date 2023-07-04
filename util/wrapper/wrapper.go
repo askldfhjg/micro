@@ -2,10 +2,11 @@ package wrapper
 
 import (
 	"context"
-	"github.com/micro/micro/v3/service/uauth"
 	"reflect"
 	"strings"
 	"time"
+
+	"github.com/micro/micro/v3/service/uauth"
 
 	"github.com/micro/micro/v3/service/auth"
 	"github.com/micro/micro/v3/service/client"
@@ -304,7 +305,7 @@ func MetricsHandler() server.HandlerWrapper {
 			} else {
 				tags["result"] = "success"
 			}
-			logger.Infof("metrics1:%s", tags["method"])
+			//logger.Infof("metrics1:%s", tags["method"])
 			// Instrument the result (if the DefaultClient has been configured):
 			err = metrics.Timing("service.handler", time.Since(callTime), tags)
 			if err != nil {

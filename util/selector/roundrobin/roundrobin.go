@@ -15,7 +15,8 @@
 package roundrobin
 
 import (
-	"math/rand"
+	"math"
+	"sort"
 
 	"github.com/micro/micro/v3/util/selector"
 )
@@ -25,19 +26,24 @@ func NewSelector(opts ...selector.Option) selector.Selector {
 	return new(roundrobin)
 }
 
-type roundrobin struct{}
+type roundrobin struct {
+	i int
+}
 
 func (r *roundrobin) Select(routes []string, opts ...selector.SelectOption) (selector.Next, error) {
 	if len(routes) == 0 {
 		return nil, selector.ErrNoneAvailable
 	}
 
-	i := rand.Intn(len(routes))
-
 	return func() string {
-		route := routes[i%len(routes)]
+		sort.Strings(routes)
+		route := routes[r.i%len(routes)]
+		//fmt.Printf("ggggggg %d %s %+v\n", r.i, route, routes)
 		// increment
-		i++
+		r.i++
+		if r.i >= math.MaxInt32 {
+			r.i = 0
+		}
 		return route
 	}, nil
 }
