@@ -15,7 +15,7 @@ import (
 	"github.com/micro/micro/v3/service/sync"
 	"github.com/opentracing/opentracing-go"
 
-	"github.com/micro/micro/v3/plugin/kafka/broker"
+	kafka "github.com/micro/micro/v3/plugin/kafka/broker"
 	"github.com/micro/micro/v3/service/auth/jwt"
 	"github.com/micro/micro/v3/service/broker"
 	memBroker "github.com/micro/micro/v3/service/broker/memory"
@@ -268,7 +268,7 @@ var Service = &Profile{
 			metrics.SetDefaultMetricsReporter(prometheusReporter)
 		}
 
-		SetupBroker(kafka.NewBroker(broker.Addrs(os.Getenv("MICRO_KAFKA_ADDR"))))
+		SetupBroker(kafka.NewBroker())
 		reporterAddress := ctx.String("tracing_reporter_address")
 		if len(reporterAddress) == 0 {
 			reporterAddress = jaeger.DefaultReporterAddress
